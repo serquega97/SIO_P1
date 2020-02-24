@@ -31,6 +31,7 @@ public class InsertDBMain {
 			}
 			
 			reader.close();
+			db.disconnectBD();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
