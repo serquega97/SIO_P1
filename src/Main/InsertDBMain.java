@@ -18,14 +18,15 @@ public class InsertDBMain {
 			BufferedReader reader = new BufferedReader(new FileReader("src/dataset.csv"));
 			line = reader.readLine();
 			String[] data1 = line.split(";");
-			insertRestaurants(db, data1.length);
+			insertRestaurants(db, data1);
 			line = reader.readLine();
 			while(line != null) {
 				cont=cont+1;
-				db.saveUser(cont);
 				String[] data = line.split(";");
-				for(int i=1; i<data.length; i++) {
-					if(Integer.parseInt(data[i]) != 99)
+				for(int i=0; i<data.length; i++) {
+					if(i == 0)
+						db.saveUser(cont, data[i]);
+					else if(Float.parseFloat(data[i]) != 99)
 						db.saveRelation(cont, i, Float.parseFloat(data[i]));
 				}
 				
@@ -40,9 +41,9 @@ public class InsertDBMain {
 		
 	}	
 	
-	public static void insertRestaurants(Database db, int size) throws SQLException{
-		for(int i=1; i<=size; i++) 
-			db.saveRestaurant(i);
+	public static void insertRestaurants(Database db, String[] data) throws SQLException{
+		for(int i=1; i<=data.length-1; i++) 
+			db.saveRestaurant(i, data[i]);
 	}
 
 }

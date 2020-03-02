@@ -16,7 +16,7 @@ public class Database {
 	private final String DRIVER="com.mysql.cj.jdbc.Driver";
 	private final String SERVER="jdbc:mysql://remotemysql.com:3306";
 	
-	public Database() {
+	public Database(){
 		this.connectDriver();
 	}
 	
@@ -54,35 +54,33 @@ public class Database {
 	}
 	
 	//Method to make a user query
-	public Integer userQuery(int userId) throws SQLException{
-		Integer user_id=null;
-		PreparedStatement ps = connection.prepareStatement("SELECT id FROM yli3crNeNQ.User WHERE id LIKE ?");
+	public String userQuery(int userId) throws SQLException{
+		String user_name=null;
+		PreparedStatement ps = connection.prepareStatement("SELECT name FROM yli3crNeNQ.User WHERE id LIKE ?");
 		ps.setInt(1, userId);
 		ResultSet rs = ps.executeQuery();
 			
 		if(rs.isBeforeFirst()) {
 			rs.next();
-			user_id = rs.getInt("id");
-		} else 
-			user_id = -1;
+			user_name = rs.getString("name");
+		}
 		
-		return user_id;
+		return user_name;
 	}
 	
 	//Method to make a restaurant query
-	public Integer restaurantQuery(int restId) throws SQLException {
-		Integer rest_id=null;
-		PreparedStatement ps = connection.prepareStatement("SELECT id FROM yli3crNeNQ.Restaurant WHERE id LIKE ?");
+	public String restaurantQuery(int restId) throws SQLException {
+		String rest_name=null;
+		PreparedStatement ps = connection.prepareStatement("SELECT name FROM yli3crNeNQ.Restaurant WHERE id LIKE ?");
 		ps.setInt(1, restId);
 		ResultSet rs = ps.executeQuery();
 			
 		if(rs.isBeforeFirst()) {
 			rs.next();
-			rest_id = rs.getInt("id");
-		} else 
-			rest_id = -1;
+			rest_name = rs.getString("name");
+		}
 		
-		return rest_id;
+		return rest_name;
 	}
 	
 	//Method to save a user-restaurant grade to the database
@@ -95,16 +93,18 @@ public class Database {
 	}
 	
 	//Method to save a user to the database
-	public void saveUser(int id) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.User(id) VALUES (?)");
+	public void saveUser(int id, String name) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.User(id, name) VALUES (?, ?)");
 		ps.setInt(1, id);
+		ps.setString(2, name);
 		ps.executeUpdate();
 	}
 	
 	//Method to save a restaurant grade to the database
-	public void saveRestaurant(int id) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.Restaurant(id) VALUES (?)");
+	public void saveRestaurant(int id, String name) throws SQLException {
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.Restaurant(id, name) VALUES (?, ?)");
 		ps.setInt(1, id);
+		ps.setString(2, name);
 		ps.executeUpdate();
 	}
 }
