@@ -85,30 +85,26 @@ public class Database {
 		return rest_id;
 	}
 	
-	//Method to save a user-resturant grade to the database
-	public void saveRelation(int user, int restaurant, int grade) throws SQLException{
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.Relation.GRADE VALUES (?)");
-		PreparedStatement ps1 = connection.prepareStatement("INSERT INTO yli3crNeNQ.Relation.ID_USER VALUES (?)");
-		PreparedStatement ps2 = connection.prepareStatement("INSERT INTO yli3crNeNQ.Relation.ID_REST VALUES (?)");
-		ps.setInt(1, grade);
-		ps1.setInt(1, user);
-		ps2.setInt(1, restaurant);
-		ps.executeQuery();
-		ps1.executeQuery();
-		ps2.executeQuery();
+	//Method to save a user-restaurant grade to the database
+	public void saveRelation(int user, int restaurant, float grade) throws SQLException{
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.Relation(grade,id_user,id_rest) VALUES (?,?,?)");
+		ps.setFloat(1, grade);
+		ps.setInt(2, user);
+		ps.setInt(3, restaurant);
+		ps.executeUpdate();
 	}
 	
-	//Method to save a user-resturant grade to the database
+	//Method to save a user to the database
 	public void saveUser(int id) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.User VALUES (?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.User(id) VALUES (?)");
 		ps.setInt(1, id);
-		ps.executeQuery();
+		ps.executeUpdate();
 	}
 	
-	//Method to save a user-resturant grade to the database
+	//Method to save a restaurant grade to the database
 	public void saveRestaurant(int id) throws SQLException {
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.Restaurant VALUES (?)");
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO yli3crNeNQ.Restaurant(id) VALUES (?)");
 		ps.setInt(1, id);
-		ps.executeQuery();
+		ps.executeUpdate();
 	}
 }
