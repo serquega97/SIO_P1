@@ -10,24 +10,26 @@ import Database.Database;
 public class InsertDBMain {
 
 	public static void main(String[] args) throws SQLException{
-		int cont=0;
 		Database db = new Database();
 		db.connectBD();
 		String line=null;
+		int j=1;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("src/dataset.csv"));
 			line = reader.readLine();
-			String[] data1 = line.split(";");
-			insertRestaurants(db, data1);
+			String[] rest = line.split(";");
+			insertRestaurants(db, rest);
 			line = reader.readLine();
 			while(line != null) {
-				cont=cont+1;
 				String[] data = line.split(";");
+				String user=data[0];
 				for(int i=0; i<data.length; i++) {
-					if(i == 0)
-						db.saveUser(cont, data[i]);
-					else if(Float.parseFloat(data[i]) != 99)
-						db.saveRelation(cont, i, Float.parseFloat(data[i]));
+					if(i == 0) {
+						db.saveUser(data[i]);
+					}else if(Float.parseFloat(data[i]) != 99 && j<=rest.length-1) {
+						db.saveRelation(user, rest[j], Float.parseFloat(data[i]));
+					}
+					j++;
 				}
 				
 				line = reader.readLine();
@@ -35,7 +37,8 @@ public class InsertDBMain {
 			
 			reader.close();
 			db.disconnectBD();
-		}catch(IOException e) {
+			System.out.println("Finished storing data to database....");
+			}catch(IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -43,7 +46,7 @@ public class InsertDBMain {
 	
 	public static void insertRestaurants(Database db, String[] data) throws SQLException{
 		for(int i=1; i<=data.length-1; i++) 
-			db.saveRestaurant(i, data[i]);
+			db.saveRestaurant(data[i]);
 	}
 
 }
