@@ -13,7 +13,6 @@ public class InsertDBMain {
 		Database db = new Database();
 		db.connectBD();
 		String line=null;
-		int j=1;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("src/dataset.csv"));
 			line = reader.readLine();
@@ -21,6 +20,7 @@ public class InsertDBMain {
 			insertRestaurants(db, rest);
 			line = reader.readLine();
 			while(line != null) {
+				int j=1;
 				String[] data = line.split(";");
 				String user=data[0];
 				for(int i=0; i<data.length; i++) {
@@ -37,7 +37,7 @@ public class InsertDBMain {
 			
 			reader.close();
 			db.disconnectBD();
-			System.out.println("Finished storing data to database....");
+			System.out.println("S'ha acabat d'insertar dades a la BD");
 			}catch(IOException e) {
 			e.printStackTrace();
 		}
