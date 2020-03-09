@@ -17,7 +17,7 @@ public class InsertDBMain {
 			BufferedReader reader = new BufferedReader(new FileReader("src/dataset.csv"));
 			line = reader.readLine();
 			String[] rest = line.split(";");
-			insertRestaurants(db, rest);
+			//insertRestaurants(db, rest);
 			line = reader.readLine();
 			while(line != null) {
 				int j=1;
@@ -25,19 +25,20 @@ public class InsertDBMain {
 				String user=data[0];
 				for(int i=0; i<data.length; i++) {
 					if(i == 0) {
-						db.saveUser(data[i]);
+						//db.saveUser(data[i]);
+						j--;
 					}else if(Float.parseFloat(data[i]) != 99 && j<=rest.length-1) {
-						db.saveRelation(user, rest[j], Float.parseFloat(data[i]));
-					}
+						db.saveRelation(user, rest[j], Float.parseFloat(data[i]));	
+					}	
 					j++;
 				}
-				
+				System.out.println(user+" finished....");
 				line = reader.readLine();
 			}
 			
 			reader.close();
 			db.disconnectBD();
-			System.out.println("S'ha acabat d'insertar dades a la BD");
+			System.out.println("Finished storing data to database....");
 			}catch(IOException e) {
 			e.printStackTrace();
 		}
