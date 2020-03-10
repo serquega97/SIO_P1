@@ -1,23 +1,26 @@
 package Main;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 
 import Database.Database;
 
-public class InsertDBMain {
+public class InsertDBScriptMain {
 
 	public static void main(String[] args) throws SQLException{
-		Database db = new Database();
-		db.connectBD();
 		String line=null;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("src/dataset.csv"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter("script.txt"));
+			String str;
+			str = "\nINSERT INTO Relation (grade, id_rest, id_user) VALUES";
+			writer.write(str);
 			line = reader.readLine();
 			String[] rest = line.split(";");
-			//insertRestaurants(db, rest);
 			line = reader.readLine();
 			while(line != null) {
 				int j=1;
@@ -25,10 +28,10 @@ public class InsertDBMain {
 				String user=data[0];
 				for(int i=0; i<data.length; i++) {
 					if(i == 0) {
-						//db.saveUser(data[i]);
 						j--;
 					}else if(Float.parseFloat(data[i]) != 99 && j<=rest.length-1) {
-						db.saveRelation(user, rest[j], Float.parseFloat(data[i]));	
+						str = "\n\t('"+Float.parseFloat(data[i])+"', '"+rest[j]+"', '"+user+"'),";
+						writer.write(str);
 					}	
 					j++;
 				}
@@ -37,7 +40,7 @@ public class InsertDBMain {
 			}
 			
 			reader.close();
-			db.disconnectBD();
+			writer.close();
 			System.out.println("Finished storing data to database....");
 			}catch(IOException e) {
 			e.printStackTrace();

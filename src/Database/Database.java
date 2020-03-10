@@ -10,11 +10,11 @@ import java.sql.Statement;
 public class Database {
 	private Connection connection;
 	private Statement statement;
-	private final String BD_NAME="SIO_PR1_DB";
+	private final String BD_NAME="practicasio";
 	private final String USER="root";		
-	private final String PASSWORD="root";
+	private final String PASSWORD="";
 	private final String DRIVER="com.mysql.cj.jdbc.Driver";
-	private final String SERVER="jdbc:mysql://localhost:8889/"+BD_NAME;
+	private final String SERVER="jdbc:mysql://localhost:3306/"+BD_NAME;
 	
 	public Database(){
 		this.connectDriver();
@@ -23,7 +23,7 @@ public class Database {
 	//Method to connect to mysql driver
 	public void connectDriver() {
 		try {
-			Class.forName(DRIVER);	
+			Class.forName(DRIVER).newInstance();	
 			connection = DriverManager.getConnection(SERVER, USER, PASSWORD);
 			System.out.println("S'ha connectat al driver de la BD correctament");
 		}catch(Exception e) {
@@ -107,4 +107,19 @@ public class Database {
 		ps.setString(1, id);
 		ps.executeUpdate();
 	}
+	
+	//Method to execute a query in the database
+	public ResultSet querryExecute(String sql) throws SQLException {
+		Statement ps = connection.createStatement();
+		ResultSet resu = ps.executeQuery(sql);
+		return resu;	
+	}
 }
+
+
+
+
+
+
+
+
