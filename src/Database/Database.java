@@ -107,7 +107,6 @@ public class Database {
 		ps.setString(1, id);
 		ps.executeUpdate();
 	}
-	
 	//Method to execute a query in the database
 	public ResultSet querryExecute(String sql) throws SQLException {
 		Statement ps = connection.createStatement();

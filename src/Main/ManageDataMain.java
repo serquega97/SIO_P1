@@ -77,16 +77,6 @@ public class ManageDataMain {
 		return avgUser;	
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }
